@@ -9,7 +9,7 @@ gui.IgnoreGuiInset = true
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Console box
+-- Console box (upper-left corner)
 local consoleBox = Instance.new("Frame")
 consoleBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 consoleBox.BackgroundTransparency = 0.4
@@ -52,14 +52,18 @@ local fakeLogs = {
     "[INFO] System status: STABLE"
 }
 
--- Show logs for ~2 minutes
+-- Display logs for 2 minutes, scrolling
 task.spawn(function()
     local startTime = tick()
-    while tick() - startTime < 120 do -- 120 seconds = 2 minutes
-        local log = fakeLogs[math.random(1, #fakeLogs)]
-        logLabel.Text = logLabel.Text .. log .. "\n"
-        task.wait(math.random(5, 15) / 10) -- 0.5s to 1.5s per line
+    local lines = {}
+    while tick() - startTime < 120 do
+        table.insert(lines, fakeLogs[math.random(1, #fakeLogs)])
+        if #lines > 12 then
+            table.remove(lines, 1) -- Remove oldest line
+        end
+        logLabel.Text = table.concat(lines, "\n")
+        task.wait(math.random(5, 15) / 10)
     end
-    -- After 2 mins: clear logs & show "ANTI SCAM ON" 3 lines lower
+    -- Clear logs & show "ANTI SCAM ON" 3 lines lower
     logLabel.Text = string.rep("\n", 3) .. "ANTI SCAM ON"
 end)
