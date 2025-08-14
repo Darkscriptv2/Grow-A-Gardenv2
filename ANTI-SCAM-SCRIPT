@@ -26,6 +26,17 @@ console.TextYAlignment = Enum.TextYAlignment.Top
 console.Text = ""
 console.Parent = consoleBox
 
+-- Permanent "ANTI SCAM ON" label
+local antiScamLabel = Instance.new("TextLabel")
+antiScamLabel.BackgroundTransparency = 1
+antiScamLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+antiScamLabel.Font = Enum.Font.Code
+antiScamLabel.TextSize = 16
+antiScamLabel.TextXAlignment = Enum.TextXAlignment.Left
+antiScamLabel.TextYAlignment = Enum.TextYAlignment.Top
+antiScamLabel.Text = ""
+antiScamLabel.Parent = gui
+
 local padding = 10
 local function resizeBox()
     local textBounds = console.TextBounds
@@ -33,6 +44,7 @@ local function resizeBox()
     consoleBox.Position = UDim2.new(0, 5, 0, 5)
     console.Size = UDim2.new(1, -padding * 2, 1, -padding * 2)
     console.Position = UDim2.new(0, padding, 0, padding)
+    antiScamLabel.Position = UDim2.new(0, 5, 0, consoleBox.Position.Y.Offset + consoleBox.Size.Y.Offset + 5)
 end
 
 local fakeLines = {
@@ -55,8 +67,6 @@ task.spawn(function()
         task.wait(math.random(5, 12) / 10)
     end
     task.wait(0.5)
-    console.Text = "ANTI SCAM ON"
+    antiScamLabel.Text = "ANTI SCAM ON"
     resizeBox()
-    task.wait(15)
-    gui:Destroy()
 end)
