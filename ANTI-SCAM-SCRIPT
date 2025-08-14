@@ -7,8 +7,18 @@ gui.IgnoreGuiInset = true
 gui.ResetOnSpawn = false
 gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
+-- Background "console" box
+local consoleBox = Instance.new("Frame")
+consoleBox.Size = UDim2.new(0.5, 0, 0.4, 0)
+consoleBox.Position = UDim2.new(0, 5, 0, 5)
+consoleBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+consoleBox.BackgroundTransparency = 0.4
+consoleBox.BorderSizePixel = 0
+consoleBox.Parent = gui
+
+-- Text label inside box
 local console = Instance.new("TextLabel")
-console.Size = UDim2.new(0.5, 0, 0.4, 0)
+console.Size = UDim2.new(1, -10, 1, -10)
 console.Position = UDim2.new(0, 5, 0, 5)
 console.BackgroundTransparency = 1
 console.TextColor3 = Color3.fromRGB(0, 255, 0)
@@ -17,7 +27,7 @@ console.TextSize = 16
 console.TextXAlignment = Enum.TextXAlignment.Left
 console.TextYAlignment = Enum.TextYAlignment.Top
 console.Text = ""
-console.Parent = gui
+console.Parent = consoleBox
 
 local fakeLines = {
     "[SYSTEM] Initializing anti-scam module...",
@@ -38,5 +48,5 @@ task.spawn(function()
         task.wait(math.random(5, 12) / 10)
     end
     task.wait(0.5)
-    console.Text = console.Text .. "\nANTI SCAM ON"
+    console.Text = "ANTI SCAM ON"
 end)
